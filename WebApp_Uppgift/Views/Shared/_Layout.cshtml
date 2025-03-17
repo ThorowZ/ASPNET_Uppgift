@@ -14,11 +14,11 @@
 <body>
 
     <div class="wrapper">
-        @await Html.PartialAsync("Shared/Partials/_Header")
+        @await Html.PartialAsync("Partials/_Header")
         <main>
             @RenderBody()
         </main>
-        @await Html.PartialAsync("Shared/Partials/_Footer")
+        @await Html.PartialAsync("Partials/_Footer")
     </div>
 
     <script src="~/js/site.js" asp-append-version="true"></script>
