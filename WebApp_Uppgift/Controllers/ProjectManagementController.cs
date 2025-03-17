@@ -8,7 +8,7 @@ public class ProjectManagementController : Controller
     {
         ViewData["Title"] = "Home";
 
-        return View();
+        return View("Home");
     }
 
     public IActionResult AddProject()

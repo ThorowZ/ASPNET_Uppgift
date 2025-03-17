@@ -4,8 +4,9 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>
-        @(string.IsNullOrEmpty(ViewData["Title"] as string) ? "Project Mangement" : ViewData["Title"] + " - Project Mangement"
+        @(string.IsNullOrEmpty(ViewData["Title"] as string) ? "Project Management" : ViewData["Title"] + " - Project Management")
     </title>
+
     <script type="importmap"></script>
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/WebApp_Uppgift.styles.css" asp-append-version="true" />
@@ -13,16 +14,12 @@
 <body>
 
     <div class="wrapper">
-        <header>Header</header>
+        @await Html.PartialAsync("Shared/Partials/_Header")
         <main>
             @RenderBody()
         </main>
-        <footer>Footer</footer>
+        @await Html.PartialAsync("Shared/Partials/_Footer")
     </div>
-
-    <footer class="border-top footer text-muted">
-        
-    </footer>
 
     <script src="~/js/site.js" asp-append-version="true"></script>
     @await RenderSectionAsync("Scripts", required: false)
