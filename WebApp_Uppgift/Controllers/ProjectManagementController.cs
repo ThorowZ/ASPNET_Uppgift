@@ -1,14 +1,22 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using WebApp_Uppgift.Services;
 
 namespace WebApp_Uppgift.Controllers;
 
-public class ProjectManagementController : Controller
-{
-    public IActionResult Home()
-    {
-        ViewData["Title"] = "Home";
 
-        return View("Home");
+public class ProjectManagementController(ProjectService projectService) : Controller
+
+
+{
+    private readonly ProjectService _projectService = projectService;
+
+
+    [Route("projects")]
+    public IActionResult Projects()
+    {
+        ViewData["Title"] = "Projects";
+
+        return View(_projectService.GetProjects());
     }
 
     public IActionResult AddProject()

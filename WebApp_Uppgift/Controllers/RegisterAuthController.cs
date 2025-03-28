@@ -11,9 +11,17 @@ public class RegisterAuthController : Controller
         return View();
     }
 
+    [HttpPost]
+    public IActionResult HandleSignUp()
+    {
+        return View();
+    }
+
     [Route("login")]
     public IActionResult Login()
     {
+
+        //return LocalRedirect("/projects");
         return View();
     }
 

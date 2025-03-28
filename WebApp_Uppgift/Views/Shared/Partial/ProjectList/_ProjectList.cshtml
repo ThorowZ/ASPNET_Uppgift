@@ -1,0 +1,12 @@
+﻿@model IEnumerable<Project>
+
+@foreach (var project in Model)
+{
+	<div class="card">
+		<div class="card-body">
+			<h5 class="card-title">@project.ProjectName</h5>
+			<p class="card-text">@project.Description</p>
+			<a href="@Url.Action("Details", "ProjectManagement", new { id = project.Id })" class="btn btn-primary">Details</a>
+		</div>
+	</div>
+})
