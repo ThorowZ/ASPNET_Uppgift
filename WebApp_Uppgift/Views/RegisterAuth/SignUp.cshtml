@@ -1,4 +1,82 @@
-﻿@{
-	Layout = "_AuthLayout";
-	ViewData["Title"] = "SignUp";
+﻿@model SignUpViewModel
+
+@{
+    Layout = "_AuthLayout";
+    ViewData["Title"] = "SignUp";
 }
+
+<div class="container">
+    <div class="center-screen">
+        <div class="surface connect-window-signup center-screen flex-column">
+            <h1>Sign Up</h1>
+            <form method="POST" asp-controller="RegisterAuth" asp-action="HandleSignUp" novalidate>
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                
+                <div class="input-group">
+                    <label asp-for="FormData.Username">Username</label>
+                    <input asp-for="FormData.Username"
+                           id="username"
+                           name="FormData.Username"
+                           value="@Model?.FormData?.Username"
+                           placeholder="Enter your username"
+                           required />
+                    <span asp-validation-for="FormData.Username" class="text-danger"></span>
+                </div>
+
+                <div class="input-group">
+                    <label asp-for="FormData.Email">Email</label>
+                    <input asp-for="FormData.Email"
+                           id="email"
+                           name="FormData.Email"
+                           value="@Model?.FormData?.Email"
+                           placeholder="Enter your email"
+                           required />
+                    <span asp-validation-for="FormData.Email" class="text-danger"></span>
+                </div>
+
+                <div class="input-group">
+                    <label asp-for="FormData.Password">Password</label>
+                    <input asp-for="FormData.Password"
+                           id="password"
+                           name="FormData.Password"
+                           value="@Model?.FormData?.Password"
+                           placeholder="Enter your password"
+                           required />
+                    <span asp-validation-for="FormData.Password" class="text-danger"></span>
+                </div>
+
+                <div class="input-group">
+                    <label asp-for="FormData.ConfirmPassword">Confirm Password</label>
+                    <input asp-for="FormData.ConfirmPassword"
+                           id="confirm-password"
+                           name="FormData.ConfirmPassword"
+                           value="@Model?.FormData?.ConfirmPassword"
+                           placeholder="Confirm your password"
+                           required />
+                    <span asp-validation-for="FormData.ConfirmPassword" class="text-danger"></span>
+                </div>
+
+                @* <div class="input-group"> *@
+                @*     <select asp-for="FormData.ClientId" asp-items="@Model?.ClientOptions"> *@
+                @*         <option value="0" disabled selected>-- Select a Client --</option> *@
+                @*     </select> *@
+                @*     <span asp-validation-for="FormData.ClientId" class="text-danger"></span> *@
+                @* </div> *@
+
+                <div class="term-service input-group">
+                    <input type="checkbox" id="terms" name="terms" required />
+                    <label for="terms">I accept Terms and Conditions</label>
+                </div>
+
+                <div class="input-group">
+                    <button type="submit" class="btn btn-blue">Sign Up</button>
+                </div>
+
+                <div class="flex-row">
+                    <p>Already have an account?</p>
+                    <a asp-controller="RegisterAuth" asp-action="Login">Log in</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

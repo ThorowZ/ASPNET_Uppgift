@@ -1,11 +1,14 @@
 
 //Depedency Injection
+using WebApp_Uppgift.Models;
 using WebApp_Uppgift.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllersWithViews();
 
 builder.Services.AddScoped<ProjectService>();
+builder.Services.AddScoped<SignUpViewModel>();
+builder.Services.AddScoped<ClientService>();
 
 
 var app = builder.Build();
@@ -26,15 +29,15 @@ app.Use(async (context, next) =>
 {
     if (context.Request.Path == "/")
     {
-        context.Response.Redirect("/login");
-
+        context.Response.Redirect("/signup");
+        return;
     }
     await next();
 });
 
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=RegisterAuthController}/{action=login}/{id?}")
+    pattern: "{controller=RegisterAuth}/{action=SignUp}/{id?}")
     .WithStaticAssets();
 
 
