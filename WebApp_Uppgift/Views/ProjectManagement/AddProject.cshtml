@@ -1,5 +1,59 @@
-﻿@model WebApp_Uppgift.Models.Project
+﻿@model WebApp_Uppgift.Models.ProjectCreateFormModel
+
+@{
+	ViewData["Title"] = "Add Project";
+}
 
 <div class="add-project">
+	<form asp-action="AddProject" method="post" enctype="multipart/form-data" novalidate>
+		
+		<header>
+			<h3>Add Project</h3>
+		</header>
 
+		<div>
+			<div asp-validation-summary="ModelOnly" class="text-danger"></div>
+			<div class="input-group">
+				<label asp-for="ProjectName">Project Name</label>
+				<input asp-for="ProjectName" id="project-name" placeholder="Enter project name" required />
+				<span asp-validation-for="ProjectName" class="text-danger"></span>
+			</div>
+
+			<div class="input-group">
+				<label asp-for="Description">Description</label>
+				<textarea asp-for="Description" id="description" placeholder="Enter project description" required></textarea>
+				<span asp-validation-for="Description" class="text-danger"></span>
+			</div>
+
+			<div class="input-group">
+				<label asp-for="StartDate">Start Date</label>
+				<input type="date" asp-for="StartDate" id="start-date" required />
+				<span asp-validation-for="StartDate" class="text-danger"></span>
+			</div>
+
+			<div class="input-group">
+				<label asp-for="EndDate">End Date</label>
+				<input type="date" asp-for="EndDate" id="end-date" required />
+				<span asp-validation-for="EndDate" class="text-danger"></span>
+			</div>
+
+			<div class="input-group">
+				<label asp-for="Budget">Budget</label>
+				<input type="number" asp-for="Budget" id="budget" placeholder="Enter project budget" required />
+				<span asp-validation-for="Budget" class="text-danger"></span>
+			</div>
+
+			<div class="input-group">
+				<label for="">Upload File</label>
+				<input type="file" name="" id="" />
+			</div>
+
+			<footer>
+				<button type="submit">Add Project</button>
+			</footer>
+
+		</div>
+	</form>
 </div>
+
+@await Html.PartialAsync("_ValidationScripts")

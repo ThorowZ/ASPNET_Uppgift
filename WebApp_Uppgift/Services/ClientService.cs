@@ -7,13 +7,13 @@ namespace WebApp_Uppgift.Services;
 
 public class ClientService
 {
-    public async Task<IEnumerable<Client>> GetClients()
+    public async Task<IEnumerable<ClientCreateFormModel>> GetClients()
     {
-        return new List<Client>
+        return new List<ClientCreateFormModel>
         {
-                new Client { Id = 1, ClientName = "Client 1" },
-                new Client { Id = 2, ClientName = "Client 2" },
-                new Client { Id = 3, ClientName = "Client 3" }
+                new ClientCreateFormModel { Id = 1, ClientName = "Client 1" },
+                new ClientCreateFormModel { Id = 2, ClientName = "Client 2" },
+                new ClientCreateFormModel { Id = 3, ClientName = "Client 3" }
         };
     }
 

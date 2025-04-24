@@ -4,10 +4,8 @@ namespace WebApp_Uppgift.Models;
 
 public class FileUploadViewModel
 {
-
     [Required(ErrorMessage = "File is required to upload.")]
     public IFormFile File { get; set; } = null!;
-
 }
 
 

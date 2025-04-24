@@ -19,8 +19,11 @@ public class ProjectManagementController(ProjectService projectService) : Contro
         return View(_projectService.GetProjects());
     }
 
-    public IActionResult AddProject()
+    [Route("projects/addproject")]
+    public IActionResult AddProject(string id)
     {
+        ViewData["Title"] = "Add Project";
+
         return View();
     }
 

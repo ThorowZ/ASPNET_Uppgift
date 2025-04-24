@@ -6,8 +6,14 @@
 
 <div class="surface">
 
-	<form>
+	<form asp-action="Upload" method="post" enctype="multipart/form-data">
+		<div>
+			<label></label>
+			<input type="File" name="file" accept="image/*"   class="form-control"/>
+			<span asp-validation-for="File"></span>
+		</div>
 
+		<button type="submit" class=""></button>
 
 	</form>
 

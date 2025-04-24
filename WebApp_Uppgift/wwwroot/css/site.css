@@ -15,6 +15,7 @@
     --size-tablet: 768px;
     --size-desktop: 1400px;
     --size-ultra: 1920px;
+    --font-fa: "Font Awesome 6 Pro";
 }
 
 
@@ -173,6 +174,15 @@ html, body {
     align-content: initial !important;
 }
 
+
+.auto-push {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
+}
+
 .input-group {
     display: flex;
     flex-direction: column;
@@ -208,7 +218,7 @@ html, body {
     .portal-layout > .alpha-logotype {
         grid-area: logo;
         border: 1px solid var(--gray-700);
-        padding: 1rem;
+        margin: 1rem;
     }
 
     .portal-layout > .side-menu {
@@ -231,8 +241,12 @@ html, body {
 
     .portal-layout > .main-content {
         grid-area: main;
-        border: 1px solid green;
+        border: 1px;
         padding: 2rem;
+    }
+
+    .form .field-group {
+        position: relative;
     }
 
 
@@ -317,6 +331,10 @@ h6 {
     transition: background-color 0.3s, color 0.3s;
 }
 
+.btn.btn-addproject {
+    padding: 1rem 2.5vw
+}
+
 .btn-blue {
     color: var(--btn-blue-text-color);
     background-color: var(--btn-blue-background-color);
@@ -339,6 +357,8 @@ h6 {
         background-color: var(--btn-gray-background-hover-color);
     }
 
+
+
 /* list */
 
 /* components */
@@ -351,7 +371,7 @@ h6 {
     padding: 0.1rem;
     display: flex;
     align-items: center;
-    gap: 0.5rem;
+    margin: 1rem;
 }
 
 .logotype img {
@@ -395,6 +415,30 @@ h6 {
             color: var(--navlink-color-active-text);
             background-color: var(--navlink-background-active-color);
         }
+
+    .text-danger {
+        color: firebrick;
+        border-color: firebrick;
+    }
+
+form .field-validation-error {
+    color: firebrick;
+    font-size: 0.8em;
+    margin-top: 0.5rem;
+
+}
+
+form .input-validation-error {
+    border-color: firebrick;
+    background-color: rgba(255, 108, 96, 0.1);
+}
+
+form .field-validation-error::before {
+    content: '\f071';
+    font-family: var(--font-fa);
+    font-size: 1.1em;
+    font-weight: var(--font-regular);
+}
 
 /* forms */
 
