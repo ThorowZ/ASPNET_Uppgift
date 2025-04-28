@@ -249,6 +249,32 @@ html, body {
         position: relative;
     }
 
+.top-bar-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.avatar-wrapper {
+    justify-content: center;
+    align-items: center;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    overflow: hidden;
+    background-color: #fff;
+}
+
+    .avatar-wrapper img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover; 
+    }
+
+.setting-wrapper {
+
+}
+
 
 /* typography */
 
@@ -438,6 +464,12 @@ form .field-validation-error::before {
     font-family: var(--font-fa);
     font-size: 1.1em;
     font-weight: var(--font-regular);
+}
+
+
+/*tabels*/
+table {
+
 }
 
 /* forms */

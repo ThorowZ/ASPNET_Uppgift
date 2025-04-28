@@ -22,7 +22,9 @@
         <div class="side-menu">Side
 			@await Html.PartialAsync("Partial/Components/_Navlinks")
         </div>
-        <div class="top-menu">Top</div>
+        <div class="top-menu">Top
+			@await Html.PartialAsync("Partial/Components/_Profile")
+        </div>
         <div class="main-content">Main
 			@RenderBody()
         </div>

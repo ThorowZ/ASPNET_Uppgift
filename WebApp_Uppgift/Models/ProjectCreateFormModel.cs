@@ -2,6 +2,14 @@
 
 namespace WebApp_Uppgift.Models
 {
+
+    public enum ProjectStatus
+    {
+        NotStarted,
+        Started,
+        Completed
+    }
+
     public class ProjectCreateFormModel
     {
         public int Id { get; set; }
@@ -30,7 +38,11 @@ namespace WebApp_Uppgift.Models
 
         [Display(Name = "Budget", Prompt = "Enter a Budget")]
         [Required(ErrorMessage = "Required.")]
-        public int Budget { get; set; }
+        public decimal Budget { get; set; }
+
+        [Display(Name = "Status")]
+        [Required(ErrorMessage = "Status is required.")]
+        public ProjectStatus Status { get; set; }
 
         public ClientCreateFormModel Client { get; set; } = null!;
 
