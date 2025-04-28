@@ -1,5 +1,6 @@
 
 //Depedency Injection
+using Microsoft.AspNetCore.Rewrite;
 using WebApp_Uppgift.Models;
 using WebApp_Uppgift.Services;
 
@@ -23,13 +24,16 @@ app.UseAuthorization();
 
 app.MapStaticAssets();
 
+
+//app.UseRewriter(new RewriteOptions)
+
 // Tagit hjälp av ChatGPT
 
 app.Use(async (context, next) =>
 {
     if (context.Request.Path == "/")
     {
-        context.Response.Redirect("/signup");
+        context.Response.Redirect("/projects");
         return;
     }
     await next();
@@ -37,7 +41,7 @@ app.Use(async (context, next) =>
 
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=RegisterAuth}/{action=SignUp}/{id?}")
+    pattern: "{controller=RegisterAuth}/{action=projects}/{id?}")
     .WithStaticAssets();
 
 
