@@ -4,11 +4,11 @@ using WebApp_Uppgift.Services;
 namespace WebApp_Uppgift.Controllers;
 
 
-public class ProjectManagementController(ProjectService projectService) : Controller
+public class ProjectManagementController(test_ProjectService projectService) : Controller
 
 
 {
-    private readonly ProjectService _projectService = projectService;
+    private readonly test_ProjectService _projectService = projectService;
 
 
     [Route("projects")]

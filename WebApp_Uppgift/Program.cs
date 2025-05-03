@@ -2,6 +2,7 @@
 //Depedency Injection
 using Data.Contexts;
 using Data.Entities;
+using Data.Repositories;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Rewrite;
 using Microsoft.EntityFrameworkCore;
@@ -12,9 +13,9 @@ using WebApp_Uppgift.Services;
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllersWithViews();
 
-builder.Services.AddScoped<ProjectService>();
+builder.Services.AddScoped<test_ProjectService>();
 builder.Services.AddScoped<SignUpViewModel>();
-builder.Services.AddScoped<ClientService>();
+builder.Services.AddScoped<test_ClientService>();
 builder.Services.AddDbContext<AppDbContext>(x => x.UseSqlServer(builder.Configuration.GetConnectionString("SqlConnection")));
 builder.Services.AddIdentity<UserEntity, IdentityRole>(x =>
 {
@@ -34,6 +35,10 @@ builder.Services.ConfigureApplicationCookie(x =>
     x.Cookie.Expiration = TimeSpan.FromDays(30);
 });
 
+builder.Services.AddScoped<IClientRepository, ClientRepository>();
+builder.Services.AddScoped<IProjectRepository, ProjectRepository>();
+builder.Services.AddScoped<IStatusRepository, StatusRepository>();
+builder.Services.AddScoped<IUserRepository, UserRepository>();
 
 var app = builder.Build();
 

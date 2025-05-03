@@ -13,3 +13,4 @@ public class ClientEntity
 
     public virtual ICollection<ProjectEntity> Projects { get; set; } = new List<ProjectEntity>();
 }
+

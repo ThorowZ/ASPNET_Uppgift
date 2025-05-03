@@ -1,25 +1,35 @@
-﻿using Microsoft.AspNetCore.Mvc.Rendering;
-using System.Collections.Generic;
-using System.Threading.Tasks;
-using WebApp_Uppgift.Services;
-using WebApp_Uppgift.Models;
+﻿using Business.Dtos;
+using Data.Repositories;
+using Domain.Models;
 
-namespace WebApp_Uppgift.Services;
+namespace Business.Services;
 
-public class ClientService
+public interface IClientService
 {
-    public async Task<IEnumerable<ClientCreateFormModel>> GetClients()
+    Task<ClientResult> GetClientAsync();
+}
+
+public class ClientService(IClientRepository clientRepository) : IClientService
+{
+    private readonly IClientRepository _clientRepository = clientRepository;
+
+    public async Task<ClientResult> GetClientAsync()
     {
-        return new List<ClientCreateFormModel>
+        var result = await _clientRepository.GetAllAsync();
+        if (!result.Success || result.Result == null)
         {
-                new ClientCreateFormModel { Id = 1, ClientName = "Client 1" },
-                new ClientCreateFormModel { Id = 2, ClientName = "Client 2" },
-                new ClientCreateFormModel { Id = 3, ClientName = "Client 3" }
+            return new ClientResult { Success = false, ErrorMessage = "No clients found." };
+        }
+        return new ClientResult
+        {
+            Success = true,
+            StatusCode = result.StatusCode,
+            Result = result.Result.Select(e => new Client
+            {
+                id = e.id,
+                ClientName = e.ClientName
+            }).ToList()
         };
     }
 
 }
-
-
-
-

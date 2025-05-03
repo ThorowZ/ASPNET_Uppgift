@@ -4,9 +4,9 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 namespace WebApp_Uppgift.Models;
 public class SignUpViewModel
 {
-    private readonly ClientService _clientService;
+    private readonly test_ClientService _clientService;
 
-    public SignUpViewModel(ClientService clientService)
+    public SignUpViewModel(test_ClientService clientService)
     {
         _clientService = clientService;
         Task.Run(PopulateClientOptionsAsync);
