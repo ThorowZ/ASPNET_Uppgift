@@ -3,10 +3,12 @@ using Data.Entities;
 using Data.Repositories;
 using Domain.Models;
 using Microsoft.AspNetCore.Identity;
+using System.Diagnostics;
 
 public interface IUserService
 {
     Task<UserResult> AddUserToRole(string userId, string roleName);
+    Task<UserResult> CreateUserAsync(SignUpFormData formData, string roleName = "User");
     Task<UserResult> GetUserAsync();
 }
 
@@ -59,5 +61,52 @@ public class UserService(IUserRepository userRepository, UserManager<UserEntity>
         }
         return new UserResult { Success = true, StatusCode = 200 };
     }
+
+    public async Task<UserResult> CreateUserAsync(SignUpFormData formData, string roleName = "User")
+    {
+        if (formData == null)
+        {
+            return new UserResult { Success = false, ErrorMessage = "Form data is null." };
+        }
+
+        var emailExistsResult = await _userRepository.ExistsAsync(x => x.Email == formData.Email);
+        if (!emailExistsResult.Success)
+        {
+            return new UserResult { Success = false, ErrorMessage = "Error checking email existence." };
+        }
+
+        if (emailExistsResult.Result)
+        {
+            return new UserResult { Success = false, ErrorMessage = "Email already exists." };
+        }
+        try
+        {
+            var user = new UserEntity
+            {
+                UserName = formData.Username,
+                Email = formData.Email,
+            };
+
+            var result = await _userManager.CreateAsync(user, formData.Password);
+            if (result.Succeeded)
+            {
+                var addToRoleResult = await AddUserToRole(user.Id, roleName);
+            return result.Succeeded
+                ? new UserResult { Success = true, StatusCode = 201 }
+                : new UserResult { Success = false, StatusCode = 201, ErrorMessage = "User created but not added to role" };
+            }
+            else
+            {
+                return new UserResult { Success = false, ErrorMessage = "Unable to add create user."};
+            }
+
+        }
+        catch (Exception ex)
+        {
+            Debug.WriteLine(ex.Message);
+            return new UserResult { Success = false, ErrorMessage = "An error occurred while creating the user." };
+        }
+    }
+
 
 }
