@@ -28,7 +28,11 @@ public class SignUpFormModel
     [Compare(nameof(Password), ErrorMessage = "Passwords do not match")]
     public string ConfirmPassword { get; set; } = null!;
 
-    [Display(Name = "Select Client")]
-    [Required(ErrorMessage = "You must select a client")]
-    public int ClientId { get; set; }
+
+    [Range(typeof(bool), "true", "true", ErrorMessage = "You must accept the terms and conditions")]
+    public bool TermsAndConditions { get; set; }
 }
+
+    //[Display(Name = "Select Client")]
+    //[Required(ErrorMessage = "You must select a client")]
+    //public int ClientId { get; set; }

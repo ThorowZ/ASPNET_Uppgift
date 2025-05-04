@@ -8,8 +8,10 @@ namespace Business.Services;
 public interface IProjectService
 {
     Task<ProjectResult> CreateProjectAsync(AddProjectFormData formData);
+    Task<ProjectResult> DeleteProjectAsync(string id);
     Task<ProjectResult<IEnumerable<Project>>> GetAllProjectsAsync();
     Task<ProjectResult<Project>> GetProjectByIdAsync(string id);
+    Task<ProjectResult> UpdateProjectAsync(string id, UpdateProjectFormData formData);
 }
 
 public class ProjectService(IProjectRepository projectRepository, IStatusService statusService) : IProjectService

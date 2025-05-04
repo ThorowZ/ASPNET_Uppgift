@@ -1,4 +1,7 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Business.Services;
+using Domain.Models;
+using Microsoft.AspNetCore.Mvc;
+using Org.BouncyCastle.Security;
 using System.Threading.Tasks;
 using WebApp_Uppgift.Models;
 
@@ -7,43 +10,76 @@ namespace WebApp_Uppgift.Controllers;
 public class RegisterAuthController(SignUpViewModel signUpViewModel) : Controller
 {
     private readonly SignUpViewModel _signUpViewModel = signUpViewModel;
+    private readonly IAuthService _authService;
 
-    [Route("signup")]
-    public async Task<IActionResult> SignUp()
+    
+   public IActionResult SignUp()
     {
-        await _signUpViewModel.PopulateClientOptionsAsync();
-        return View(_signUpViewModel);
+        return View();
+    }
+    
+    
+    [HttpPost]
+    public async Task<IActionResult> SignUp(SignUpViewModel model)
+    {
+        ViewBag.ErrorMessage = null;
+
+        if (!ModelState.IsValid)
+            return View(model);
+
+        var signUpFormData = new SignUpFormData
+        {
+            Username = model.FormData.Username,
+            Email = model.FormData.Email,
+            Password = model.FormData.Password,
+        };
+
+        var result = await _authService.SignUpAsync(signUpFormData);
+        if (result.Success)
+        {
+            return RedirectToAction("SignIn", "Auth");
+        }
+        else
+        {
+            ViewBag.ErrorMessage = result.ErrorMessage;
+            return View(model);
+        }
+    }
+
+
+    [Route("login")]
+    public IActionResult Login(string returnUrl = "~/")
+    {
+        ViewBag.ReturnUrl = returnUrl;
+
+        return View();
     }
 
     [HttpPost]
-    [Route("signup")]
-    public IActionResult HandleSignUp(SignUpFormModel formData)
+    [Route("login")]
+    public IActionResult Login(LoginFormModel formData, string returnUrl ="~/")
     {
+        ViewBag.ReturnUrl = returnUrl;
+        ViewBag.ErrorMessage = null;
+
         if (!ModelState.IsValid)
         {
-            _signUpViewModel.FormData = formData;
-            return View("SignUp", _signUpViewModel);
+            return View(formData);
         }
+        var loginFormData = new LoginFormData
+        {
+            Email = formData.Email,
+            Password = formData.Password,
+            IsPersistent = false
+        };
+        var result = _authService.SignInAsync(loginFormData);
+        if (result.Result.Success)
+        {
+            return LocalRedirect(returnUrl);
 
-        _signUpViewModel.FormData = new SignUpFormModel();
-        return View("SignUp", _signUpViewModel);
-    }
-
-    [Route("login")]
-    public IActionResult Login()
-    {
-        var formData = new LoginFormModel();
+        }
+        ViewBag.ErrorMessage = result.Result.ErrorMessage;
         return View(formData);
-    }
-
-    [HttpPost]
-    [Route("login")]
-    public IActionResult HandleLogin(LoginFormModel formData)
-    {
-        if (!ModelState.IsValid)
-            return View("Login", formData);
-
-        return RedirectToAction("Index", "Home");
     }
 
     public IActionResult Logout()

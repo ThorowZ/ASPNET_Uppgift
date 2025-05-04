@@ -5,10 +5,18 @@ using Domain.Models;
 using Microsoft.AspNetCore.Identity;
 using MySqlX.XDevAPI.Common;
 using System.Runtime.CompilerServices;
+using WebApp_Uppgift.Models;
 
 namespace Business.Services;
 
-public class AuthService(IUserService userService, SignInManager<UserEntity> loginManager)
+public interface IAuthService
+{
+    Task<AuthResult> SignInAsync(LoginFormData formData);
+    Task<AuthResult> SignOutAsync();
+    Task<AuthResult> SignUpAsync(SignUpFormData formData);
+}
+
+public class AuthService(IUserService userService, SignInManager<UserEntity> loginManager) : IAuthService
 {
     private readonly IUserService _userService = userService;
     private readonly SignInManager<UserEntity> _signInManager = loginManager;
@@ -17,12 +25,12 @@ public class AuthService(IUserService userService, SignInManager<UserEntity> log
     public async Task<AuthResult> SignInAsync(LoginFormData formData)
     {
         if (formData == null)
-            return new AuthResult { Success = false, StatusCode= 400, ErrorMessage = "Form data is null" };
+            return new AuthResult { Success = false, StatusCode = 400, ErrorMessage = "Form data is null" };
 
         var result = await _signInManager.PasswordSignInAsync(formData.Email, formData.Password, formData.IsPersistent, lockoutOnFailure: false);
-            return result.Succeeded
-            ? new AuthResult { Success = true, StatusCode = 200 }
-            : new AuthResult { Success = false, StatusCode = 401, ErrorMessage = "Invalid login attempt" };
+        return result.Succeeded
+        ? new AuthResult { Success = true, StatusCode = 200 }
+        : new AuthResult { Success = false, StatusCode = 401, ErrorMessage = "Invalid login attempt" };
     }
     public async Task<AuthResult> SignUpAsync(SignUpFormData formData)
     {

@@ -33,7 +33,7 @@ builder.Services.ConfigureApplicationCookie(x =>
     x.Cookie.HttpOnly = true;
     x.Cookie.IsEssential = true;
     x.SlidingExpiration = true;
-    x.Cookie.Expiration = TimeSpan.FromDays(30);
+    x.ExpireTimeSpan = TimeSpan.FromDays(30);
 });
 
 builder.Services.AddScoped<IClientRepository, ClientRepository>();
@@ -45,7 +45,7 @@ builder.Services.AddScoped<IClientService, ClientService>();
 builder.Services.AddScoped<IProjectService, ProjectService>();
 builder.Services.AddScoped<IStatusService, StatusService>();
 builder.Services.AddScoped<IUserService, UserService>();
-builder.Services.AddScoped<IRegisterAuthService, RegisterAuthService>();
+builder.Services.AddScoped<IAuthService, AuthService>();
 
 var app = builder.Build();
 

@@ -1,39 +1,74 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Business.Services;
+using Domain.Models;
+using Microsoft.AspNetCore.Mvc;
+using System.Threading.Tasks;
+using WebApp_Uppgift.Models;
 using WebApp_Uppgift.Services;
 
 namespace WebApp_Uppgift.Controllers;
 
 
-public class ProjectManagementController(test_ProjectService projectService) : Controller
-
-
+public class ProjectManagementController : Controller
 {
-    private readonly test_ProjectService _projectService = projectService;
+    private readonly IProjectService _projectService;
 
+    public ProjectManagementController(IProjectService projectService) => _projectService = projectService;
 
     [Route("projects")]
-    public IActionResult Projects()
+    public async Task<IActionResult> Projects()
     {
         ViewData["Title"] = "Projects";
 
-        return View(_projectService.GetProjects());
+        var model = new ProjectsViewModel
+        {
+            Projects = await _projectService.GetAllProjectsAsync(),
+        };
+        return View(model);
     }
 
+    [HttpPost]
     [Route("projects/addproject")]
-    public IActionResult AddProject(string id)
+    public async Task<IActionResult> Add(AddProjectFormData model)
     {
-        ViewData["Title"] = "Add Project";
+        if (!ModelState.IsValid)
+        {
+            return Json(new { success = false, message = "Invalid model state" });
+        }
 
-        return View();
+        var formData = new AddProjectFormData
+        {
+            ProjectName = model.ProjectName,
+            ClientName = model.ClientName,
+            Description = model.Description,
+            StartDate = model.StartDate,
+            EndDate = model.EndDate,
+            Budget = model.Budget,
+            Image = model.Image,
+            ClientId = model.ClientId,
+            UserId = model.UserId,
+            StatusId = model.StatusId
+        };
+
+        var result = await _projectService.CreateProjectAsync(model);
+
+        return Json(new { success = result.Success, message = result.ErrorMessage });
     }
 
-    public IActionResult OptionsProject()
+    [HttpPut]
+    [Route("projects/updateproject")]
+    public async Task<IActionResult> Update(UpdateProjectViewModel model)
     {
-        return View();
+        var result = await _projectService.UpdateProjectAsync(model.Id, model);
+
+        return Json(new { success = result.Success, ErrorMessage = result.ErrorMessage });
     }
 
-    public IActionResult EditProject()
+    [HttpDelete]
+    [Route("projects/deleteproject")]
+    public async Task<IActionResult> Delete(string id)
     {
-        return View();
+        var result = await _projectService.DeleteProjectAsync(id);
+
+        return Json(new { success = result.Success });
     }
 }
