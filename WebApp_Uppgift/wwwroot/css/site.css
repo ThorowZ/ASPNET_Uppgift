@@ -82,6 +82,15 @@
     --navlink-background-color: transperent;
     --navlink-background-hover-color: var(--blue-accent-10);
     --navlink-background-active-color: var(--blue-accent-10);
+    /*Account profile colors.    */
+    --Account-color-background: var(--white-100);
+    --Account-color-border: var(--gray-100);
+    --Account-color-background-hover: var(--gray-100);
+    --box-shadow: 0 8px 4px 4px rgba(0,0,0,0.1);
+    /*dropdown*/
+    --dropdown-background-color: var(--white-100);
+    --dropdown-border-color: var(--white-100);
+    --dropdown-text-color: var(--dark-100);
 }
 
 [data-theme="dark"] {
@@ -96,6 +105,8 @@
     --navlink-background-hover-color: var(--blue-accent-10);
     --navlink-background-active-color: var(--blue-accent-10);
 }
+
+
 
 
 
@@ -130,6 +141,7 @@ html, body {
 }
 
 .container {
+    background-color: var(--gray-300);
 }
 
 .surface {
@@ -140,7 +152,7 @@ html, body {
 }
 
 .connect-window-signup {
-    height: 900px;
+    height: 825px;
     width: 600px;
 }
 
@@ -199,6 +211,23 @@ html, body {
         background-color: var(--white-100);
     }
 
+.form-search-input {
+    position: relative;
+    width: 100%;
+    min-height: 40px;
+    font-size: 1em;
+    font-weight: 400;
+    font-style: normal;
+    font-family: var(--font-standard);
+    color: var(--dark-200);
+    padding: 0.5rem 1rem;
+    outline: none;
+    border-radius: 1rem;
+    border: 1px solid var(--gray-500);
+    background-color: var(--white-200);
+    transition: background-color 0.1s ease-in-out, border-color 0.1s ease-in-out, color 0.1s ease-in-out;
+}
+
 .term-service {
     display: flex;
     flex-direction: row;
@@ -248,31 +277,99 @@ html, body {
     .form .field-group {
         position: relative;
     }
+.card {
+    position: absolute;
+    background-color: var(--card-background-color);
+    border: 1px solid var(--card-border-color);
+    border-radius: 14px;
+    padding: 1rem;
+    font-size: 16px;
+    font-family: var(--font-standard);
+    color: var(--text-color);
+    box-shadow: var(--box-shadow);
+}
+
+    .card-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin: 0 1rem;
+    }
+
+    .card-body {
+        margin: 0 2rem;
+    }
+
+    .card-footer {
+        margin: 0 2rem;
+    }
+
+.dropdown-container {
+    position: relative;
+    display: inline-block;
+}
+
+.dropdown {
+    position: absolute;
+    right: 0%;
+    top: 100%;
+    background-color: var(--dropdown-background-color);
+    border: 1px solid var(--dropdown-border-color);
+    border-radius: 14px;
+    padding: 1.2rem 1rem 1.2rem 1.5rem;
+    color: var(--dropdown-text-color);
+    box-shadow: var(--box-shadow);
+}
+      .dropdown-header
+    {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin: 0 1rem;
+    }
+
+        .dropdown-body {
+            margin: 0 2rem;
+        }
+
+        .dropdown-footer {
+            margin: 0 2rem;
+        }
 
 .top-bar-wrapper {
-    display: flex;
+    display: grid;
+    grid-template-columns: 1fr auto auto;
+    gap: 2rem;
     justify-content: center;
     align-items: center;
 }
 
 .avatar-wrapper {
-    justify-content: center;
-    align-items: center;
+    /*    justify-content: center;
+    align-items: center;*/
+    transition: var(--Account-color-background-hover) 0.1s ease-in-out, border-color 0.1s ease-in-out, color 0.1s ease-in-out;
+    background-color: var(--Account-color-background);
+    border: var(--Account-color-border);
     width: 40px;
     height: 40px;
     border-radius: 50%;
     overflow: hidden;
-    background-color: #fff;
+    position: relative;
+    cursor: pointer;
 }
 
     .avatar-wrapper img {
-        width: 100%;
-        height: 100%;
-        object-fit: cover; 
+        position: absolute;
+        width: 40px;
+        height: 40px;
+        top: 0;
+        left: 0;
+        object-fit: contain; 
     }
 
 .setting-wrapper {
-
+    border: var(--gray-100);
+    background-color: var(--gray-100);
 }
 
 
@@ -383,6 +480,39 @@ h6 {
         background-color: var(--btn-gray-background-hover-color);
     }
 
+.btn-account {
+    font-family: var(--font-standard);
+    font-size: 15px;
+    font-weight: var(--font-medium);
+    color: var(--color-text);
+    background-color: var(--color-background);
+    border: 1px solid var(--color-border);
+    border-radius: 14px;
+    padding: 1rem 8vw;
+    cursor: pointer;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.btn-setting {
+    font-family: var(--font-standard);
+    font-size: 15px;
+    font-weight: var(--font-medium);
+    color: var(--color-text);
+    background-color: var(--color-background);
+    border: 1px solid var(--color-border);
+    border-radius: 14px;
+    padding: 1rem 8vw;
+    cursor: pointer;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+#account-container {
+    position: relative;
+}
+
+#setting-container {
+    position: relative;
+}
 
 
 /* list */

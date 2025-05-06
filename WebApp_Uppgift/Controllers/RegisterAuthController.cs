@@ -1,15 +1,15 @@
 ﻿using Business.Services;
 using Domain.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Org.BouncyCastle.Security;
 using System.Threading.Tasks;
 using WebApp_Uppgift.Models;
 
 namespace WebApp_Uppgift.Controllers;
 
-public class RegisterAuthController(SignUpViewModel signUpViewModel) : Controller
+public class RegisterAuthController: Controller
 {
-    private readonly SignUpViewModel _signUpViewModel = signUpViewModel;
     private readonly IAuthService _authService;
 
     
@@ -19,7 +19,8 @@ public class RegisterAuthController(SignUpViewModel signUpViewModel) : Controlle
     }
     
     
-    [HttpPost]
+    [HttpGet]
+    [Route("signup")]
     public async Task<IActionResult> SignUp(SignUpViewModel model)
     {
         ViewBag.ErrorMessage = null;
@@ -46,6 +47,22 @@ public class RegisterAuthController(SignUpViewModel signUpViewModel) : Controlle
         }
     }
 
+
+
+    //public async Task<IActionResult> SignUp()
+    //{
+    //    var clients = await _clientService.GetClients();
+    //    var model = new SignUpViewModel
+    //    {
+    //        ClientOptions = clients.Select(c => new SelectListItem
+    //        {
+    //            Value = c.Id.ToString(),
+    //            Text = c.ClientName
+    //        }).ToList()
+    //    };
+
+    ////    return View(model);
+    //}
 
     [Route("login")]
     public IActionResult Login(string returnUrl = "~/")

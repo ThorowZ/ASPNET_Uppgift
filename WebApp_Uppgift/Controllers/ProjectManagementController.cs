@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 using WebApp_Uppgift.Models;
 using WebApp_Uppgift.Services;
+using WebApp_Uppgift.ViewModels;
 
 namespace WebApp_Uppgift.Controllers;
 
@@ -56,7 +57,7 @@ public class ProjectManagementController : Controller
 
     [HttpPut]
     [Route("projects/updateproject")]
-    public async Task<IActionResult> Update(UpdateProjectViewModel model)
+    public async Task<IActionResult> Update(UpdateProjectFormData model)
     {
         var result = await _projectService.UpdateProjectAsync(model.Id, model);
 
