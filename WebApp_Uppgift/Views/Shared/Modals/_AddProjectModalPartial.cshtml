@@ -1,0 +1,56 @@
+﻿
+
+
+<section id="add-project-modal" class="modal modal-hide">
+	<div class="modal-backdrop"></div>
+
+	<div class="modal-card">
+		<div class="modal-header">
+			<h3>Add Project</h3>
+			<button class="btn-close" onclick="closeModal()" aria-label="Close"></button>
+		</div>
+		<div class="modal-img-container">
+			<img class="modal-img-project" src="~/images/Project_Image.svg" />
+		</div>
+		<div class="modal-body">
+			<form asp-controller="" asp-action="" method="post" novalidate>
+				<div class="input-group">
+					<label class="form-label">Project Name</label>
+					<input type="text" class="form-input" name="ProjectName" placeholder="Project Name" required />
+				</div>
+				<div class="input-group">
+					<label class="form-label">Client Name</label>
+					<input type="text" class="form-input" name="ClientName" placeholder="Client Name" required />
+				</div>
+				<div class="input-group">
+					<label class="form-label">Description</label>
+					<textarea class="textarea"></textarea>
+				</div>
+				<div class="date-group">
+					<div class="input-group">
+						<label class="form-label">Start Date</label>
+						<input type="date" class="form-input" name="StartDate" required />
+					</div>
+					<div class="input-group">
+						<label class="form-label">End Date</label>
+						<input type="date" class="form-input" name="StartDate" required />
+					</div>
+				</div>
+				<div class="input-group">
+					<label class=" form-label">Budget</label>
+					<div id="budget-input" class="input-group form-input-icon">
+						<i class="fa-solid fa-dollar-sign"></i>
+						<input type="number" class="form-input" name="Budget" placeholder="" required />
+					</div>
+				</div>
+			</form>
+
+		</div>
+		<div class="modal-footer">
+			<button class="btn btn-blue btn-blue:hover" type="submit" form="add-project-form">
+				<i class="fa-solid fa-plus"></i>
+				Create
+			</button>
+		</div>
+	</div>
+</section>

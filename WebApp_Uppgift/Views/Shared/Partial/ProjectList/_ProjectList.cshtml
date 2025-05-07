@@ -1,12 +1,42 @@
-﻿@model IEnumerable<ProjectCreateFormModel>
+﻿<section class="project-list">
+	<div class="project-card">
+		<div class="projectlist-header">
+			<div class="project-image">
+				<img src="~/images/Project_Image.svg" />
+			</div>
 
-@foreach (var project in Model)
-{
-	<div class="card">
-		<div class="card-body">
-			<h5 class="card-title">@project.ProjectName</h5>
-			<p class="card-text">@project.Description</p>
-			<a href="@Url.Action("Details", "ProjectManagement", new { id = project.Id })" class="btn btn-primary">Details</a>
+			<div class="project-tags">
+				<h6 class="project-title">Website Redesign</h6>
+				<span class="project-company">GitLab Inc.</span>
+			</div>
+
+			<div id="project-action-container" class="project-action-container">
+				<button class="project-dropdown" type="button" data-type="project-dropdown" data-target="#project-dropdown-container">
+					<i class="fa-solid fa-ellipsis"></i>
+				</button>
+
+				<div class="project-dropdown-container">
+					<nav class="dropdown-actions project-dropdown-adds">
+						<button type="button" data-type="modal" data-target="edit-project-modal" class="dropdown-action project-edit">
+							<i class="fa-solid fa-pen"></i>
+							<span>Edit</span>
+						</button>
+						<button type="button" class="dropdown-action project-delete">
+							<i class="fa-solid fa-trash"></i>
+							<span>Delete</span>
+						</button>
+					</nav>
+				</div>
+			</div>
+		</div>
+		<div class="projectlist-body">
+		<span class="project-description">It is necessary to develop a website redesign in a corporate style.</span>
+		</div>
+		<div class="projectlist-footer"></div>
+		<div class="project-time">
+			<i class="fa-solid fa-clock"></i>
+			<span> (amount) Time left </span>
 		</div>
 	</div>
-})
+
+</section>

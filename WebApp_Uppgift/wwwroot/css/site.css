@@ -83,7 +83,7 @@
     --navlink-background-hover-color: var(--blue-accent-10);
     --navlink-background-active-color: var(--blue-accent-10);
     /*Account profile colors.    */
-    --Account-color-background: var(--white-100);
+    --Account-color-background: var(--white-200);
     --Account-color-border: var(--gray-100);
     --Account-color-background-hover: var(--gray-100);
     --box-shadow: 0 8px 4px 4px rgba(0,0,0,0.1);
@@ -91,6 +91,14 @@
     --dropdown-background-color: var(--white-100);
     --dropdown-border-color: var(--white-100);
     --dropdown-text-color: var(--dark-100);
+    /*Cards*/
+    --card-background-color: var(--white-200);
+    --card-border-color: var(--white-200);
+    /*Modal*/
+    --modal-background-color: rgba(0, 0, 0, 0.5);
+    /*Project-card*/
+    --projectccard-background-color: var(--white-200);
+    --projectcard-border-color: var(--gray-100);
 }
 
 [data-theme="dark"] {
@@ -277,8 +285,10 @@ html, body {
     .form .field-group {
         position: relative;
     }
+
+    /*cards*/
 .card {
-    position: absolute;
+    position: relative;
     background-color: var(--card-background-color);
     border: 1px solid var(--card-border-color);
     border-radius: 14px;
@@ -316,13 +326,14 @@ html, body {
     background-color: var(--dropdown-background-color);
     border: 1px solid var(--dropdown-border-color);
     border-radius: 14px;
-    padding: 1.2rem 1rem 1.2rem 1.5rem;
+    padding: 0.2rem;
+    min-width: 250px;
     color: var(--dropdown-text-color);
     box-shadow: var(--box-shadow);
 }
       .dropdown-header
     {
-        display: flex;
+        display: grid;
         justify-content: space-between;
         align-items: center;
         margin: 0 1rem;
@@ -335,6 +346,24 @@ html, body {
         .dropdown-footer {
             margin: 0 2rem;
         }
+
+.account-name {
+    display: flex;
+    justify-content: left;
+    align-items: center;
+    background-color: var(--Account-color-background);
+    padding: 0.2rem 3rem;
+    border-radius: 14px;
+}
+    .account-name img {
+
+        border: 1px solid var(--white-100);
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        margin-right: 1rem;
+    }
+
 
 .top-bar-wrapper {
     display: grid;
@@ -369,12 +398,277 @@ html, body {
 
 .setting-wrapper {
     border: var(--gray-100);
-    background-color: var(--gray-100);
+    background-color: var(--white-200);
+}
+
+.divider {
+    width: 100%;
+    height: 1px;
+    background-color: var(--gray-300);
+    margin: 0.5rem 0;
+}
+
+/*Modal*/
+
+.modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: 999;
+    display: none;
+}
+
+.modal-backdrop { 
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,0.10);
+    z-index: 1;
+}
+
+.modal-card {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 2;
+    background-color: white;
+    padding: 2rem;
+    border-radius: 10px;
+    box-shadow: 0 0 20px rgba(0,0,0,0.25);
+    overflow-y: auto;
+    max-height: 90vh;
+    scrollbar-width: thin;
+    padding-right: 0.5rem;
+}
+
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 0 1rem;
+}
+
+.modal-body {
+    margin: 0 2rem;
+}
+
+.modal-footer {
+    margin: 0 2rem;
+}
+
+.modal-img-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+}
+
+.modal-img-project {
+    object-fit: cover;
+    border-radius: 14px;
+}
+
+.date-group {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
+}
+
+.form-input-icon {
+    position: relative;
+
+}
+.form-input-icon > i
+{
+    position: absolute;
+    top: 50%;
+    left: 1rem;
+    transform: translateY(-50%);
 }
 
 
-/* typography */
+ #budget-input {
+        position: relative;
+}
 
+    #budget-input i {
+        position: absolute;
+        left: 10px;
+        top: 50%;
+        transform: translateY(-50%);
+    }
+
+    #budget-input input {
+        padding-left: 30px
+    }
+
+
+    .project-list {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 1rem;
+        padding: 1rem; 
+    }
+
+
+.project-card {
+    background-color: var(--card-background-color);
+    border: 1px solid var(--card-border-color);
+    border-radius: 16px;
+    width: 350px;
+    height: 276px;
+    padding: 1.5rem;
+    box-shadow: 0 6px 12px rgba(0,0,0,0.05);
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    transition: box-shadow 0.3s ease;
+}
+
+    .project-card:hover {
+        box-shadow: 0 12px 24px rgba(0,0,0,0.1);
+    }
+
+.projectlist-header {
+    display: grid;
+    grid-template-areas:
+        "image tags dropdown"
+        "image tags dropdown";
+    grid-template-columns: 56px 1fr;
+    gap: 0rem 1rem;
+    row-gap: 0rem;
+    align-items: center;
+}
+
+.projectlist-body {
+    margin: 0;
+}
+
+.projectlist-footer {
+    margin: 0 2rem;
+}
+
+.projectlist-header img {
+    grid-area: image;
+    width: 56px;
+    height: 56px;
+    border-radius: 14px;
+}
+/*.project-title {
+    grid-area: title;
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin: 0;
+}
+
+.project-company {
+    grid-area: company;
+    font-size: 0.9rem;
+    color: var(--gray-700);
+}*/
+.project-tags {
+    grid-area: tags;
+}
+
+.project-dropdown {
+    grid-area: dropdown;
+    background: none;
+    border: none;
+    font-size: 1.5rem;
+    color: var(--text-color);
+    cursor: pointer;
+    padding: 0;
+}
+
+.projectlist-body .description {
+    margin: 0;
+    font-size: 0.9rem;
+    color: var(--text-color);
+}
+#project-action-container {
+    position: relative;
+}
+
+
+.project-dropdown-container {
+    display: none;
+    position: absolute;
+    top: 100%;
+    right: 0;
+}
+
+.project-dropdown-adds {
+    position: absolute;
+    display: grid;
+    grid-template-areas:
+        "edit"
+        "delete";
+    grid-template-columns: 1fr;
+    align-content: center;
+    background-color: var(--dropdown-background-color);
+    border: 1px solid var(--gray-100);
+    border-radius: 14px;
+    width: 230px;
+    height: 115px;
+    color: var(--dropdown-text-color);
+    box-shadow: var(--box-shadow);
+    
+}
+
+.project-edit {
+    grid-area: edit;
+    padding: 1rem;
+    width: 100%;
+    justify-self: left;
+    align-self: start;
+    height: 100%;
+    background-color: var(--white-200);
+    border: var(--white-200);
+    border-radius: 14px;
+    cursor:pointer;
+}
+
+.project-delete {
+    grid-area: delete;
+    padding: 1rem;
+    color: firebrick;
+    justify-self: left;
+    width: 100%;
+    background-color: var(--white-100);
+    border: var(--white-100);
+    border-radius: 14px;
+
+}
+
+.project-expand-show {
+    display: flex;
+}
+
+.project-time {
+    display: flex;
+    align-items: end;
+    margin-top: auto;
+    padding: 0.5rem;
+    font-size: 0.9rem;
+    text-align: center;
+    border-radius: 14px;
+    background-color: var(--gray-100);
+    border: 1px solid var(--gray-300);
+}
+
+.textarea {
+    width: auto;
+    height: 200px;
+}
+/* typography */
 h1, h2, h3, h4, h5, h6 {
     font-family: var(--font-standard);
     color: var(--color-text);
@@ -506,6 +800,42 @@ h6 {
     transition: background-color 0.3s, color 0.3s;
 }
 
+.btn-logout {
+    background-color: var(--dropdown-background-color);
+    border: 1px solid var(--dropdown-border-color);
+    padding: 1rem;
+    display: flex;
+    justify-content: left;
+    align-content: center;
+    cursor: pointer;
+        transition: background-color 0.3s ease-in-out;
+}
+
+.btn-close {
+    background: none;
+    border: none;
+    font-size: 1rem;
+    font-weight: 700;
+    cursor: pointer;
+    line-height: 1;
+    color: #333;
+    padding: 1rem;
+    transition: background-color 0.3s, color 0.3s;
+}
+    .btn-close:hover {
+        background-color: var(--gray-100);
+    }
+
+    .btn-close::after {
+        content: "X";
+    }
+
+
+#add-project-modal .modal-card {
+    width: 550px;
+    min-height: 900px;
+}
+
 #account-container {
     position: relative;
 }
@@ -600,6 +930,27 @@ form .field-validation-error::before {
 /*tabels*/
 table {
 
+}
+/*helpers*/
+
+.show {
+    display:block !important;
+}
+
+.hide {
+    display: none !important;
+}
+
+.open {
+    display: flex !important;
+}
+
+.modal-show {
+    display: flex !important;
+}
+
+.modal-hide{
+    display: none !important;
 }
 
 /* forms */

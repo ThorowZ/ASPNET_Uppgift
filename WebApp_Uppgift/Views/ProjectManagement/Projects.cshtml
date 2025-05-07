@@ -3,11 +3,15 @@
     ViewData["Title"] = "Projects";
 }
 
-
-<div class="flex-row auto-push">
-    <h2>Projects</h2>
-    <button class="btn btn-blue btn-blue:hover btn-addproject">
-        <i class="fa-solid fa-plus"></i>
-        Add Projects
-    </button>
+<div class="page-header">
+    <div class="flex-row auto-push">
+        <h2>Projects</h2>
+        <button data-type="modal" data-target="add-project-modal" class="btn btn-blue btn-blue:hover btn-addproject">
+            <i class="fa-solid fa-plus"></i>
+            Add Projects
+        </button>
+    </div>
 </div>
+
+    <partial name="Modals/_AddProjectModalPartial" />
+    <partial name="Partial/ProjectList/_ProjectList"/>

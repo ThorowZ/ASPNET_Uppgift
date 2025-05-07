@@ -1,0 +1,43 @@
+﻿<header>
+	<div class="top-bar-wrapper">
+		<div>
+			<form class="search-form" method="get" asp-controller="" asp-action="" novalidate>
+				<input type="search" class="form-search-input" placeholder="Search anything"/>
+			</form>
+		</div>
+
+		<!-- Settings -->
+		<div id="setting-container" class="dropdown-container">
+			<button data-type="global-dropdown" data-target="#setting-dropdown" href="#" class="setting-wrapper">
+				<img id="setting" src="~/images/Setting.svg" alt="Alternate Text" />
+			</button>
+			@* <div id="setting-dropdown" class="dropdown"> *@
+			@* 	<div class="dropdown-header"> *@
+			@* 		<h4>Settings</h4> *@
+			@* 	</div> *@
+			@* </div> *@
+		</div>
+
+
+		<!-- Account -->
+		<div id="account-container" class="dropdown-container">
+			<button data-type="modal" data-target="account-dropdown" href="#" class="avatar-wrapper">
+				<img src="~/images/Avatar_1.svg" alt="Avatar Image">
+			</button>
+			<div id="account-dropdown"  class="dropdown modal-hide">
+				<div class="dropdown-header">
+					<div class="account-name">
+						<img src="~/images/Avatar_big.svg" alt="template avatar" />
+						<span>Username</span>
+					</div>
+					<button class="btn-logout">
+							<img src="~/images/Logout.svg" />
+							<span>Logout</span>
+					</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<section>
+	</section>
+</header>

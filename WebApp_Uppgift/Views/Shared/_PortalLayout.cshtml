@@ -23,9 +23,12 @@
 			@await Html.PartialAsync("Partial/Components/_Navlinks")
         </div>
         <div class="top-menu">
-			@await Html.PartialAsync("Partial/Components/_Projects")
+			@await Html.PartialAsync("Partial/Components/_TopMenu")
         </div>
         <div class="main-content">
+                @await Html.PartialAsync("Modals/_AddProjectModalPartial")
+                @await Html.PartialAsync("Modals/_EditProjectModalPartial")
+
 			@RenderBody()
         </div>
     </div>
@@ -33,5 +36,7 @@
     <script src="~/js/site.js" asp-append-version="true"></script>
     @await RenderSectionAsync("Scripts", required: false)
 
+    @* @await Html.PartialAsync("Modals/_AddProjectModalPartial") *@
+    @* @await Html.PartialAsync("Modals/_EditProjectModalPartial") *@
 </body>
 </html>
