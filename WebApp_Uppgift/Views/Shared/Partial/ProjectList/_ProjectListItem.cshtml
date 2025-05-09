@@ -1,12 +1,12 @@
-﻿@model IEnumerable<ProjectCreateFormModel>
+﻿@model WebApp_Uppgift.ViewModels.ProjectDisplayViewModel
 
-@foreach (var project in Model)
-{
-	<div class="card">
-		<div class="card-body">
-			<h5 class="card-title">@project.ProjectName</h5>
-			<p class="card-text">@project.Description</p>
-			<a href="@Url.Action("Details", "ProjectManagement", new { id = project.Id })" class="btn btn-primary">Details</a>
-		</div>
-	</div>
-})
+
+<div class="project-card" data-status="@Model.Status.ToLower()">
+    <div class="projectlist-header">
+        <h6 class="project-title">@Model.ProjectName</h6>
+        <span class="project-company">@Model.ClientName</span>
+    </div>
+    <div class="projectlist-body">
+        <span class="project-description">@Model.Description</span>
+    </div>
+</div>

@@ -20,14 +20,27 @@ public class ProjectManagementController : Controller
     {
         ViewData["Title"] = "Projects";
 
-        var model = new ProjectsViewModel
+        var result = await _projectService.GetAllProjectsAsync();
+
+        if (result == null || !result.Success)
         {
-            Projects = await _projectService.GetAllProjectsAsync(),
-        };
-        return View(model);
+            return View(new List<ProjectDisplayViewModel>());
+        }
+
+
+        var projectDisplayList = result.Result.Select(p => new ProjectDisplayViewModel
+        {
+            ProjectName = p.ProjectName,
+            ClientName = p.ClientName,
+            Description = p.Description,
+            Status = p.Status.StatusName
+        }).ToList();
+
+        return View(projectDisplayList);
     }
 
-    [HttpPost]
+
+        [HttpPost]
     [Route("projects/addproject")]
     public async Task<IActionResult> Add(AddProjectFormData model)
     {

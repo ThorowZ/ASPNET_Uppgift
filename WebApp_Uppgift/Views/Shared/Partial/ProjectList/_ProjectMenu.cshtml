@@ -1,0 +1,25 @@
+﻿<div class="project-menu">
+    <button class="menu-tab active" data-filter="all">All</button>
+    <button class="menu-tab" data-filter="started">Started</button>
+    <button class="menu-tab" data-filter="completed">Completed</button>
+</div>
+
+@* ChatGPT Gjorde scripten *@
+<script>
+    const tabs = document.querySelectorAll(".menu-tab");
+    const projects = document.querySelectorAll(".project-card");
+
+    tabs.forEach(tab => {
+        tab.addEventListener("click", () => {
+            tabs.forEach(t => t.classList.remove("active"));
+            tab.classList.add("active");
+
+            const filter = tab.getAttribute("data-filter");
+
+            projects.forEach(project => {
+                const status = project.getAttribute("data-status");
+                project.style.display = (filter === "all" || status === filter) ? "flex" : "none";
+            });
+        });
+    });
+</script>

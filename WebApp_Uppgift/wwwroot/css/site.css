@@ -668,6 +668,32 @@ html, body {
     width: auto;
     height: 200px;
 }
+
+.project-menu {
+    display: flex;
+    gap: 1rem;
+    padding: 1rem 2rem;
+}
+
+.menu-tab {
+    font-family: var(--font-standard);
+    font-size: 1rem;
+    font-weight: var(--font-bold);
+    background: none;
+    border: none;
+    color: var(--gray-800);
+    padding: 0.5rem 1rem;
+    border-bottom: 2px solid transparent;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+    .menu-tab.active {
+        color: var(--blue-accent);
+        border-color: var(--blue-accent);
+    }
+
+
 /* typography */
 h1, h2, h3, h4, h5, h6 {
     font-family: var(--font-standard);

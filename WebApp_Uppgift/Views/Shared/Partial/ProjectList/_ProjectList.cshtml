@@ -1,42 +1,47 @@
-﻿<section class="project-list">
-	<div class="project-card">
-		<div class="projectlist-header">
-			<div class="project-image">
-				<img src="~/images/Project_Image.svg" />
-			</div>
+﻿   @model IEnumerable<WebApp_Uppgift.ViewModels.ProjectDisplayViewModel>
 
-			<div class="project-tags">
-				<h6 class="project-title">Website Redesign</h6>
-				<span class="project-company">GitLab Inc.</span>
-			</div>
+   <section class="project-list">
+       @foreach (var project in Model)
+       {
+           <div class="project-card">
+               <div class="projectlist-header">
+                   <div class="project-image">
+                       <img src="~/images/Project_Image.svg" />
+                   </div>
 
-			<div id="project-action-container" class="project-action-container">
-				<button class="project-dropdown" type="button" data-type="project-dropdown" data-target="#project-dropdown-container">
-					<i class="fa-solid fa-ellipsis"></i>
-				</button>
+                   <div class="project-tags">
+                       <h6 class="project-title">@project.ProjectName</h6>
+                       <span class="project-company">@project.ClientName</span>
+                   </div>
 
-				<div class="project-dropdown-container">
-					<nav class="dropdown-actions project-dropdown-adds">
-						<button type="button" data-type="modal" data-target="edit-project-modal" class="dropdown-action project-edit">
-							<i class="fa-solid fa-pen"></i>
-							<span>Edit</span>
-						</button>
-						<button type="button" class="dropdown-action project-delete">
-							<i class="fa-solid fa-trash"></i>
-							<span>Delete</span>
-						</button>
-					</nav>
-				</div>
-			</div>
-		</div>
-		<div class="projectlist-body">
-		<span class="project-description">It is necessary to develop a website redesign in a corporate style.</span>
-		</div>
-		<div class="projectlist-footer"></div>
-		<div class="project-time">
-			<i class="fa-solid fa-clock"></i>
-			<span> (amount) Time left </span>
-		</div>
-	</div>
+                   <div id="project-action-container" class="project-action-container">
+                       <button class="project-dropdown" type="button" data-type="project-dropdown" data-target="#project-dropdown-container">
+                           <i class="fa-solid fa-ellipsis"></i>
+                       </button>
 
-</section>
+                       <div class="project-dropdown-container">
+                           <nav class="dropdown-actions project-dropdown-adds">
+                               <button type="button" data-type="modal" data-target="edit-project-modal" class="dropdown-action project-edit">
+                                   <i class="fa-solid fa-pen"></i>
+                                   <span>Edit</span>
+                               </button>
+                               <button type="button" class="dropdown-action project-delete">
+                                   <i class="fa-solid fa-trash"></i>
+                                   <span>Delete</span>
+                               </button>
+                           </nav>
+                       </div>
+                   </div>
+               </div>
+               <div class="projectlist-body">
+                   <span class="project-description">@project.Description</span>
+               </div>
+               <div class="projectlist-footer"></div>
+
+               <div class="project-time">
+                   <i class="fa-solid fa-clock"></i>
+                   <span>Time</span>
+               </div>
+           </div>
+       }
+   </section>
