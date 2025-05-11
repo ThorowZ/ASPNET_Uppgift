@@ -36,6 +36,43 @@ document.querySelectorAll('.btn-close').forEach(button => {
     });
 });
 
+//ChatGpt gjort hela scriptet
+document.addEventListener("DOMContentLoaded", () => {
+    const addForm = document.getElementById("add-project-form");
+    if (!addForm) return;
+
+    addForm.addEventListener("submit", async function (e) {
+        e.preventDefault();
+
+        const formData = new FormData(this);
+
+        try {
+            const response = await fetch("/projects/addproject", {
+                method: "POST",
+                body: formData
+            });
+
+            const result = await response.json();
+
+            if (result.success) {
+
+                const modal = document.getElementById("add-project-modal");
+                if (modal) modal.classList.remove("modal-show");
+
+
+                window.location.href = "/projects";
+            } else {
+                alert(result.message || "Something went wrong.");
+            }
+        } catch (err) {
+            alert("An error occurred while adding the project.");
+            console.error(err);
+        }
+    });
+});
+
+
+
 
 //const dropdowns = document.querySelectorAll('[data-type="dropdown"]');
 
@@ -60,12 +97,12 @@ document.querySelectorAll('.btn-close').forEach(button => {
 
 
 
-const modals = document.querySelectorAll('[data-type="modal"]');
+//const modals = document.querySelectorAll('[data-type="modal"]');
 
-function openModal() {
-    document.getElementById("add-project-modal").classList.add("modal-show");
-}
+//function openModal() {
+//    document.getElementById("add-project-modal").classList.add("modal-show");
+//}
 
-function closeModal() {
-    document.getElementById("add-project-modal").classList.remove("modal-show");
-}
+//function closeModal() {
+//    document.getElementById("add-project-modal").classList.remove("modal-show");
+//}

@@ -1,4 +1,4 @@
-﻿@model IEnumerable<WebApp_Uppgift.ViewModels.ProjectDisplayViewModel>
+﻿@model WebApp_Uppgift.ViewModels.ProjectPageViewModel
 
 @{
     Layout = "_PortalLayout";
@@ -16,5 +16,5 @@
 </div>
 
 <partial name="Partial/ProjectList/_ProjectMenu" />
-<partial name="Modals/_AddProjectModalPartial" />
-<partial name="Partial/ProjectList/_ProjectList" model="Model" />
+<partial name="Modals/_AddProjectModalPartial" model="Model.Modal.Form" />
+<partial name="Partial/ProjectList/_ProjectList" model="Model.Projects" />

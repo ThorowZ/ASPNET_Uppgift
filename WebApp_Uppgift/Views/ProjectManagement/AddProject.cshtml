@@ -5,7 +5,8 @@
 }
 
 <div class="add-project">
-	<form asp-action="AddProject" method="post" enctype="multipart/form-data" novalidate>
+	<form id="add-project-form" method="post" asp-controller="ProjectManagement" asp-action="Add" novalidate>
+
 		
 		<header>
 			<h3>Add Project</h3>

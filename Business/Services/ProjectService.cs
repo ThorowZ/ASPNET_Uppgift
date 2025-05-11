@@ -55,42 +55,58 @@ public class ProjectService(IProjectRepository projectRepository, IStatusService
     }
     public async Task<ProjectResult> CreateProjectAsync(AddProjectFormData formData)
     {
-        var projectEntity = new ProjectEntity
+        try
         {
-            ProjectName = formData.ProjectName,
-            Description = formData.Description,
-            ClientName = formData.ClientName,
-            StartDate = formData.StartDate,
-            EndDate = formData.EndDate,
-            Budget = formData.Budget,
-            Image = formData.Image,
+            var projectEntity = new ProjectEntity
+            {
+                ProjectName = formData.ProjectName,
+                Description = formData.Description,
+                ClientName = formData.ClientName,
+                StartDate = formData.StartDate,
+                EndDate = formData.EndDate,
+                Budget = formData.Budget,
+                Image = formData.Image,
 
-            ClientId = formData.ClientId,
-            StatusId = formData.StatusId,
-            UserId = formData.UserId
-        };
+                ClientId = formData.ClientId,
+                StatusId = formData.StatusId,
+                UserId = formData.UserId
+            };
 
-        var status = await _statusService.GetStatusByIdAsync(1);
+            var status = await _statusService.GetStatusByIdAsync(1);
 
-        projectEntity.StatusId = status.Result!.id;
+            projectEntity.StatusId = status.Result!.id;
 
-        var result = await _projectRepository.AddAsync(projectEntity);
+            var result = await _projectRepository.AddAsync(projectEntity);
 
-        if (result == null || !result.Success)
+            if (result == null || !result.Success)
+            {
+                return new ProjectResult
+                {
+                    Success = false,
+                    StatusCode = 400,
+                    ErrorMessage = result?.ErrorMessage ?? "Unknown error"
+                };
+            }
 
+            return new ProjectResult
+            {
+                Success = true,
+                StatusCode = 201
+            };
+        }
+        catch (Exception ex)
         {
+            var fullMessage = ex.InnerException?.InnerException?.Message
+                              ?? ex.InnerException?.Message
+                              ?? ex.Message;
+
             return new ProjectResult
             {
                 Success = false,
-                StatusCode = 400,
-                ErrorMessage = "Error creating project"
+                StatusCode = 500,
+                ErrorMessage = "Exception: " + fullMessage
             };
         }
-        return new ProjectResult
-        {
-            Success = true,
-            StatusCode = 201
-        };
 
     }
 

@@ -1,6 +1,7 @@
 ﻿using Business.Services;
 using Domain.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using System.Threading.Tasks;
 using WebApp_Uppgift.Models;
 using WebApp_Uppgift.Services;
@@ -12,8 +13,13 @@ namespace WebApp_Uppgift.Controllers;
 public class ProjectManagementController : Controller
 {
     private readonly IProjectService _projectService;
+    private readonly IStatusService _statusService;
 
-    public ProjectManagementController(IProjectService projectService) => _projectService = projectService;
+    public ProjectManagementController(IProjectService projectService, IStatusService statusService)
+    { 
+        _projectService = projectService;
+        _statusService = statusService;
+    }
 
     [Route("projects")]
     public async Task<IActionResult> Projects()
@@ -21,6 +27,8 @@ public class ProjectManagementController : Controller
         ViewData["Title"] = "Projects";
 
         var result = await _projectService.GetAllProjectsAsync();
+        var statusResult = await _statusService.GetStatusAsync();
+
 
         if (result == null || !result.Success)
         {
@@ -30,43 +38,70 @@ public class ProjectManagementController : Controller
 
         var projectDisplayList = result.Result.Select(p => new ProjectDisplayViewModel
         {
+
             ProjectName = p.ProjectName,
             ClientName = p.ClientName,
             Description = p.Description,
             Status = p.Status.StatusName
         }).ToList();
 
-        return View(projectDisplayList);
+        //ChatGpt hjälp till med Status 
+        var statusOptions = statusResult?.Result?.Select(s => new SelectListItem
+        {
+            Value = s.id.ToString(),
+            Text = s.StatusName
+        }).ToList() ?? new();
+
+        ViewBag.StatusOptions = statusOptions;
+
+        var viewModel = new ProjectPageViewModel
+        {
+            Projects = projectDisplayList,
+            Modal = new AddProjectModalViewModel
+            {
+                Form = new AddProjectFormData(),
+                StatusOptions = statusOptions
+            }
+        };
+
+
+        return View(viewModel);
+
+
+
     }
 
 
-        [HttpPost]
+    [HttpPost]
     [Route("projects/addproject")]
     public async Task<IActionResult> Add(AddProjectFormData model)
     {
         if (!ModelState.IsValid)
         {
-            return Json(new { success = false, message = "Invalid model state" });
+            var errors = ModelState
+                .Where(e => e.Value.Errors.Count > 0)
+                .Select(e => new
+                {
+                    Field = e.Key,
+                    Errors = e.Value.Errors.Select(err => err.ErrorMessage)
+                });
+
+            return Json(new
+            {
+                success = false,
+                message = "Invalid model state",
+                validationErrors = errors
+            });
         }
 
-        var formData = new AddProjectFormData
-        {
-            ProjectName = model.ProjectName,
-            ClientName = model.ClientName,
-            Description = model.Description,
-            StartDate = model.StartDate,
-            EndDate = model.EndDate,
-            Budget = model.Budget,
-            Image = model.Image,
-            ClientId = model.ClientId,
-            UserId = model.UserId,
-            StatusId = model.StatusId
-        };
+
+        Console.WriteLine($"Model Data: {System.Text.Json.JsonSerializer.Serialize(model)}");
 
         var result = await _projectService.CreateProjectAsync(model);
 
         return Json(new { success = result.Success, message = result.ErrorMessage });
     }
+
 
     [HttpPut]
     [Route("projects/updateproject")]
