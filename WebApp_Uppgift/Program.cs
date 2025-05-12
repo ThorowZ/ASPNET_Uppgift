@@ -8,15 +8,12 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Rewrite;
 using Microsoft.EntityFrameworkCore;
 using WebApp_Uppgift.Models;
-using WebApp_Uppgift.Services;
 
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllersWithViews();
 
-builder.Services.AddScoped<test_ProjectService>();
 builder.Services.AddScoped<SignUpViewModel>();
-builder.Services.AddScoped<test_ClientService>();
 builder.Services.AddDbContext<AppDbContext>(x => x.UseSqlServer(builder.Configuration.GetConnectionString("SqlConnection")));
 builder.Services.AddIdentity<UserEntity, IdentityRole>(x =>
 {
@@ -36,6 +33,10 @@ builder.Services.ConfigureApplicationCookie(x =>
     x.ExpireTimeSpan = TimeSpan.FromDays(30);
 });
 
+builder.Services.AddIdentity<ApplicationUser, IdentityRole>()
+    .AddEntityFrameworkStores<YourDbContext>()
+    .AddDefaultTokenProviders();
+
 builder.Services.AddScoped<IClientRepository, ClientRepository>();
 builder.Services.AddScoped<IProjectRepository, ProjectRepository>();
 builder.Services.AddScoped<IStatusRepository, StatusRepository>();
@@ -54,7 +55,7 @@ var app = builder.Build();
 app.UseHsts();
 app.UseHttpsRedirection();
 app.UseRouting();
-
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapStaticAssets();
@@ -68,7 +69,7 @@ app.Use(async (context, next) =>
 {
     if (context.Request.Path == "/")
     {
-        context.Response.Redirect("/projects");
+        context.Response.Redirect("/RegisterAuth/SignUp");
         return;
     }
     await next();
@@ -76,7 +77,7 @@ app.Use(async (context, next) =>
 
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=RegisterAuth}/{action=projects}/{id?}")
+    pattern: "{controller=RegisterAuth}/{action=SignUp}/{id?}")
     .WithStaticAssets();
 
 

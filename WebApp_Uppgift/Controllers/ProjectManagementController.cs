@@ -4,7 +4,6 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System.Threading.Tasks;
 using WebApp_Uppgift.Models;
-using WebApp_Uppgift.Services;
 using WebApp_Uppgift.ViewModels;
 
 namespace WebApp_Uppgift.Controllers;
@@ -65,6 +64,7 @@ public class ProjectManagementController : Controller
         };
 
 
+
         return View(viewModel);
 
 
@@ -78,29 +78,23 @@ public class ProjectManagementController : Controller
     {
         if (!ModelState.IsValid)
         {
-            var errors = ModelState
-                .Where(e => e.Value.Errors.Count > 0)
-                .Select(e => new
-                {
-                    Field = e.Key,
-                    Errors = e.Value.Errors.Select(err => err.ErrorMessage)
-                });
-
-            return Json(new
-            {
-                success = false,
-                message = "Invalid model state",
-                validationErrors = errors
-            });
+            return Json(new { success = false, message = "Invalid model state" });
         }
 
+        // Retrieve the current user's ID
+        var userId = User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value;
+        if (string.IsNullOrEmpty(userId))
+        {
+            return Json(new { success = false, message = "User is not authenticated" });
+        }
 
-        Console.WriteLine($"Model Data: {System.Text.Json.JsonSerializer.Serialize(model)}");
+        model.UserId = userId;
 
         var result = await _projectService.CreateProjectAsync(model);
 
         return Json(new { success = result.Success, message = result.ErrorMessage });
     }
+
 
 
     [HttpPut]

@@ -94,6 +94,8 @@ public class ProjectService(IProjectRepository projectRepository, IStatusService
                 StatusCode = 201
             };
         }
+
+        //ChatGPT har gjort error catchen
         catch (Exception ex)
         {
             var fullMessage = ex.InnerException?.InnerException?.Message

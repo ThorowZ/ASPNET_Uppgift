@@ -1,5 +1,6 @@
 ﻿using Business.Services;
 using Domain.Models;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Org.BouncyCastle.Security;
@@ -8,23 +9,39 @@ using WebApp_Uppgift.Models;
 
 namespace WebApp_Uppgift.Controllers;
 
-public class RegisterAuthController: Controller
+public class RegisterAuthController : Controller
+
 {
     private readonly IAuthService _authService;
+    private readonly UserManager<ApplicationUser> _userManager;
+    private readonly SignInManager<ApplicationUser> _signInManager;
+    private readonly RoleManager<IdentityRole> _roleManager;
 
-    
-   public IActionResult SignUp()
+    public RegisterAuthController(
+    UserManager<ApplicationUser> userManager,
+    SignInManager<ApplicationUser> signInManager,
+    RoleManager<IdentityRole> roleManager)
+
+    {
+        _userManager = userManager;
+        _signInManager = signInManager;
+        _roleManager = roleManager;
+    }
+
+
+        [HttpGet]
+    public IActionResult SignUp()
     {
         return View();
     }
-    
-    
-    [HttpGet]
-    [Route("signup")]
+
+
+    [HttpPost]
     public async Task<IActionResult> SignUp(SignUpViewModel model)
     {
         ViewBag.ErrorMessage = null;
 
+        Console.WriteLine("Form submitted");
         if (!ModelState.IsValid)
             return View(model);
 
@@ -36,17 +53,17 @@ public class RegisterAuthController: Controller
         };
 
         var result = await _authService.SignUpAsync(signUpFormData);
-        if (result.Success)
+
+        if (!result.Success)
         {
-            return RedirectToAction("SignIn", "Auth");
-        }
-        else
-        {
+            Console.WriteLine("Signup failed: " + result.ErrorMessage);
             ViewBag.ErrorMessage = result.ErrorMessage;
             return View(model);
         }
-    }
 
+        Console.WriteLine("Signup succeeded, redirecting to Projects.");
+        return RedirectToAction("Projects", "ProjectManagement");
+    }
 
 
     //public async Task<IActionResult> SignUp()
