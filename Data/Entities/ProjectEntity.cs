@@ -31,7 +31,7 @@ public class ProjectEntity
 
     [ForeignKey(nameof(User))]
     public string UserId { get; set; } = null!;
-    public UserEntity User { get; set; } = null!;
+    public ApplicationUser User { get; set; } = null!;
 
     [ForeignKey(nameof(Status))]
     public int StatusId { get; set; }

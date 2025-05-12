@@ -4,12 +4,18 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Data.Contexts;
 
-public class AppDbContext(DbContextOptions<AppDbContext> options) : IdentityDbContext<UserEntity>(options)
+public class AppDbContext : IdentityDbContext<ApplicationUser>
 {
-    public virtual DbSet<ProjectEntity> Projects { get; set; } = null!;
+    public AppDbContext(DbContextOptions<AppDbContext> options) : base(options) { }
 
-    public virtual DbSet<ClientEntity> Clients { get; set; } = null!;
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
+    {
+        base.OnModelCreating(modelBuilder);
 
-    public virtual DbSet<StatusEntity> Statuses { get; set; } = null!;
+        modelBuilder.Entity<ProjectEntity>().ToTable("Projects");
+        modelBuilder.Entity<StatusEntity>().ToTable("Statuses");
+        modelBuilder.Entity<ClientEntity>().ToTable("Clients");
+    }
 
+    public DbSet<ProjectEntity> Projects { get; set; } = null!;
 }

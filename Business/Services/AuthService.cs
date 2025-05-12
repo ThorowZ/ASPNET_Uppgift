@@ -16,10 +16,10 @@ public interface IAuthService
     Task<AuthResult> SignUpAsync(SignUpFormData formData);
 }
 
-public class AuthService(IUserService userService, SignInManager<UserEntity> loginManager) : IAuthService
+public class AuthService(IUserService userService, SignInManager<ApplicationUser> loginManager) : IAuthService
 {
     private readonly IUserService _userService = userService;
-    private readonly SignInManager<UserEntity> _signInManager = loginManager;
+    private readonly SignInManager<ApplicationUser> _signInManager = loginManager;
 
 
     public async Task<AuthResult> SignInAsync(LoginFormData formData)

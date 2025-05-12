@@ -1,4 +1,5 @@
 ﻿using Business.Services;
+using Data.Entities;
 using Domain.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -18,11 +19,13 @@ public class RegisterAuthController : Controller
     private readonly RoleManager<IdentityRole> _roleManager;
 
     public RegisterAuthController(
+    IAuthService authService,
     UserManager<ApplicationUser> userManager,
     SignInManager<ApplicationUser> signInManager,
     RoleManager<IdentityRole> roleManager)
 
     {
+        _authService = authService;
         _userManager = userManager;
         _signInManager = signInManager;
         _roleManager = roleManager;
@@ -35,35 +38,39 @@ public class RegisterAuthController : Controller
         return View();
     }
 
-
+    //ChatGPT hjälp med syntax och struktur
     [HttpPost]
     public async Task<IActionResult> SignUp(SignUpViewModel model)
     {
-        ViewBag.ErrorMessage = null;
-
-        Console.WriteLine("Form submitted");
         if (!ModelState.IsValid)
             return View(model);
 
-        var signUpFormData = new SignUpFormData
+        var member = new ApplicationUser
         {
-            Username = model.FormData.Username,
-            Email = model.FormData.Email,
-            Password = model.FormData.Password,
+            UserName = model.FormData.Username,
+            Email = model.FormData.Email
         };
 
-        var result = await _authService.SignUpAsync(signUpFormData);
+        var result = await _userManager.CreateAsync(member, model.FormData.Password);
 
-        if (!result.Success)
+        if (result.Succeeded)
         {
-            Console.WriteLine("Signup failed: " + result.ErrorMessage);
-            ViewBag.ErrorMessage = result.ErrorMessage;
-            return View(model);
+
+            await _userManager.AddToRoleAsync(member, "Member");
+
+            await _signInManager.SignInAsync(member, isPersistent: false);
+            return RedirectToAction("Projects", "ProjectManagement");
         }
 
-        Console.WriteLine("Signup succeeded, redirecting to Projects.");
-        return RedirectToAction("Projects", "ProjectManagement");
+
+        foreach (var error in result.Errors)
+        {
+            ModelState.AddModelError(string.Empty, error.Description);
+        }
+
+        return View(model);
     }
+
 
 
     //public async Task<IActionResult> SignUp()

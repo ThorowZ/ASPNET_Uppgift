@@ -2,7 +2,7 @@
 
 namespace Data.Entities;
 
-public class UserEntity : IdentityUser
+public class ApplicationUser : IdentityUser
 {
 
 

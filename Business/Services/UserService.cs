@@ -12,11 +12,11 @@ public interface IUserService
     Task<UserResult> GetUserAsync();
 }
 
-public class UserService(IUserRepository userRepository, UserManager<UserEntity> userManager, RoleManager<IdentityRole> roleManager) : IUserService
+public class UserService(IUserRepository userRepository, UserManager<ApplicationUser> userManager, RoleManager<IdentityRole> roleManager) : IUserService
 {
 
     private readonly IUserRepository _userRepository = userRepository;
-    private readonly UserManager<UserEntity> _userManager = userManager;
+    private readonly UserManager<ApplicationUser> _userManager = userManager;
     private readonly RoleManager<IdentityRole> _roleManager = roleManager;
 
     public async Task<UserResult> GetUserAsync()
@@ -81,7 +81,7 @@ public class UserService(IUserRepository userRepository, UserManager<UserEntity>
         }
         try
         {
-            var user = new UserEntity
+            var user = new ApplicationUser
             {
                 UserName = formData.Username,
                 Email = formData.Email,

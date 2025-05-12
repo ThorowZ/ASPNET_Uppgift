@@ -81,7 +81,6 @@ public class ProjectManagementController : Controller
             return Json(new { success = false, message = "Invalid model state" });
         }
 
-        // Retrieve the current user's ID
         var userId = User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value;
         if (string.IsNullOrEmpty(userId))
         {

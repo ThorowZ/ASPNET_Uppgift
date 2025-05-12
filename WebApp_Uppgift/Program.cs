@@ -15,7 +15,7 @@ builder.Services.AddControllersWithViews();
 
 builder.Services.AddScoped<SignUpViewModel>();
 builder.Services.AddDbContext<AppDbContext>(x => x.UseSqlServer(builder.Configuration.GetConnectionString("SqlConnection")));
-builder.Services.AddIdentity<UserEntity, IdentityRole>(x =>
+builder.Services.AddIdentity<ApplicationUser, IdentityRole>(x =>
 {
     x.User.RequireUniqueEmail = true;
     x.Password.RequiredLength = 6;
@@ -32,10 +32,6 @@ builder.Services.ConfigureApplicationCookie(x =>
     x.SlidingExpiration = true;
     x.ExpireTimeSpan = TimeSpan.FromDays(30);
 });
-
-builder.Services.AddIdentity<ApplicationUser, IdentityRole>()
-    .AddEntityFrameworkStores<YourDbContext>()
-    .AddDefaultTokenProviders();
 
 builder.Services.AddScoped<IClientRepository, ClientRepository>();
 builder.Services.AddScoped<IProjectRepository, ProjectRepository>();
@@ -79,6 +75,19 @@ app.MapControllerRoute(
     name: "default",
     pattern: "{controller=RegisterAuth}/{action=SignUp}/{id?}")
     .WithStaticAssets();
+
+//ChatGPT hjälp syntax och struktur
+using (var scope = app.Services.CreateScope())
+{
+    var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
+    string[] roles = { "Member", "Admin" };
+
+    foreach (var role in roles)
+    {
+        if (!await roleManager.RoleExistsAsync(role))
+            await roleManager.CreateAsync(new IdentityRole(role));
+    }
+}
 
 
 app.Run();
