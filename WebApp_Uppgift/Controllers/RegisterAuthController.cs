@@ -40,26 +40,32 @@ public class RegisterAuthController : Controller
 
     //ChatGPT hjälp med syntax och struktur
     [HttpPost]
-    public async Task<IActionResult> SignUp(SignUpViewModel model)
+    public async Task<IActionResult> SignUp(SignUpFormModel model)
     {
-        if (!ModelState.IsValid)
-            return View(model);
+        Console.WriteLine("Post");
+        if (!ModelState.IsValid) 
+        {
+            Console.WriteLine("ModelState is not valid");
+        return View(model);
+        }
 
         var member = new ApplicationUser
         {
-            UserName = model.FormData.Username,
-            Email = model.FormData.Email
+            UserName = model.Username,
+            Email = model.Email
         };
 
-        var result = await _userManager.CreateAsync(member, model.FormData.Password);
+        var result = await _userManager.CreateAsync(member, model.Password);
 
+        Console.WriteLine("Successful");
         if (result.Succeeded)
         {
 
             await _userManager.AddToRoleAsync(member, "Member");
 
-            await _signInManager.SignInAsync(member, isPersistent: false);
-            return RedirectToAction("Projects", "ProjectManagement");
+            Console.WriteLine("✅ Signup succeeded, redirecting to Login");
+            return Redirect("/RegisterAuth/Login");
+
         }
 
 
@@ -88,7 +94,8 @@ public class RegisterAuthController : Controller
     ////    return View(model);
     //}
 
-    [Route("login")]
+    [HttpGet]
+    //[Route("login")]
     public IActionResult Login(string returnUrl = "~/")
     {
         ViewBag.ReturnUrl = returnUrl;
@@ -97,7 +104,7 @@ public class RegisterAuthController : Controller
     }
 
     [HttpPost]
-    [Route("login")]
+    //[Route("login")]
     public IActionResult Login(LoginFormModel formData, string returnUrl ="~/")
     {
         ViewBag.ReturnUrl = returnUrl;

@@ -1,4 +1,4 @@
-﻿@model SignUpViewModel
+﻿@model WebApp_Uppgift.Models.SignUpFormModel
 
 @{
     Layout = "_AuthLayout";
@@ -10,31 +10,32 @@
         <div class="surface connect-window-signup center-screen flex-column">
             <h1>@ViewData["Title"]</h1>
 
-            <form id="sign-up-form" method="post" asp-controller="RegisterAuth" asp-action="SignUp" novalidate>
+            <form id="sign-up-form" asp-controller="RegisterAuth" asp-action="SignUp" method="post" novalidate>
+
                 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
                 <div class="input-group">
-                    <label asp-for="FormData.Username"></label>
-                    <input asp-for="FormData.Username" class="form-input" placeholder="Enter your username" required />
-                    <span asp-validation-for="FormData.Username" class="text-danger"></span>
+                    <label asp-for="Username"></label>
+                    <input asp-for="Username" class="form-input" placeholder="Enter your username" required />
+                    <span asp-validation-for="Username" class="text-danger"></span>
                 </div>
 
                 <div class="input-group">
-                    <label asp-for="FormData.Email"></label>
-                    <input asp-for="FormData.Email" class="form-input" placeholder="Enter your email" required />
-                    <span asp-validation-for="FormData.Email" class="text-danger"></span>
+                    <label asp-for="Email"></label>
+                    <input asp-for="Email" class="form-input" placeholder="Enter your email" required />
+                    <span asp-validation-for="Email" class="text-danger"></span>
                 </div>
 
                 <div class="input-group">
-                    <label asp-for="FormData.Password"></label>
-                    <input asp-for="FormData.Password" class="form-input" placeholder="Enter your password" required />
-                    <span asp-validation-for="FormData.Password" class="text-danger"></span>
+                    <label asp-for="Password"></label>
+                    <input asp-for="Password" class="form-input" placeholder="Enter your password" required />
+                    <span asp-validation-for="Password" class="text-danger"></span>
                 </div>
 
                 <div class="input-group">
-                    <label asp-for="FormData.ConfirmPassword"></label>
-                    <input asp-for="FormData.ConfirmPassword" class="form-input" placeholder="Confirm your password" required />
-                    <span asp-validation-for="FormData.ConfirmPassword" class="text-danger"></span>
+                    <label asp-for="ConfirmPassword"></label>
+                    <input asp-for="ConfirmPassword" class="form-input" placeholder="Confirm your password" required />
+                    <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
                 </div>
 
                 @* Optional client selector (currently disabled) *@
@@ -68,7 +69,7 @@
 
     <script>
         document.getElementById("sign-up-form")?.addEventListener("submit", function () {
-            console.log(" Razor form submitted!");
+            console.log("Submitted!");
         });
     </script>
 }

@@ -7,28 +7,14 @@
         @(string.IsNullOrEmpty(ViewData["Title"] as string) ? "Authentication" : ViewData["Title"] + " - Authentication")
     </title>
 
-    <script type="importmap"></script>
-    @* <script src="~/lib/jquery/dist/jquery.min.js"></script> *@
-    @* <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script> *@
-    @* <script src="~/lib/jquery-validation-unobtrusive/dist/jquery.validate.unobtrusive.min.js"></script> *@
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/WebApp_Uppgift.styles.css" asp-append-version="true" />
 </head>
 <body>
-
-    @* <div class="wrapper"> *@
-    @*     @await Html.PartialAsync("Partial/_Header") *@
-    @*     <main> *@
-    @*         @RenderBody() *@
-    @*     </main> *@
-    @*     @await Html.PartialAsync("Partial/_Footer") *@
-    @* </div> *@
-
     @RenderBody()
 
-
     <script src="~/js/site.js" asp-append-version="true"></script>
-    @await RenderSectionAsync("Scripts", required: false)
-        
+
+    @RenderSection("Scripts", required: false)
 </body>
 </html>
