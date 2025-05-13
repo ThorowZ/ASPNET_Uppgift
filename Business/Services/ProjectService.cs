@@ -41,8 +41,9 @@ public class ProjectService(IProjectRepository projectRepository, IStatusService
             User = new User
             {
                 Id = entity.User.Id,
-                FirstName = entity.User.FirstName,
-                LastName = entity.User.LastName,
+                UserName = entity.User.UserName,
+                //FirstName = entity.User.FirstName,
+                //LastName = entity.User.LastName,
                 Email = entity.User.Email,
             },
             Status = new Status

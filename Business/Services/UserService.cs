@@ -33,8 +33,9 @@ public class UserService(IUserRepository userRepository, UserManager<Application
             Result = result.Result.Select(e => new User
             {
                 Id = e.Id,
-                FirstName = e.FirstName,
-                LastName = e.LastName,
+                UserName = e.UserName,
+                //FirstName = e.FirstName,
+                //LastName = e.LastName,
                 //JobTitle = e.JobTitle,
                 Email = e.Email,
             }).ToList()
