@@ -15,6 +15,8 @@ builder.Services.AddControllersWithViews();
 
 builder.Services.AddScoped<SignUpViewModel>();
 builder.Services.AddDbContext<AppDbContext>(x => x.UseSqlServer(builder.Configuration.GetConnectionString("SqlConnection")));
+
+builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true).AddEntityFrameworkStores<AppDbContext>();
 builder.Services.AddIdentity<ApplicationUser, IdentityRole>(opts =>
 {
     opts.User.RequireUniqueEmail = true;
