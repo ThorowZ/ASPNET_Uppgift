@@ -35,7 +35,7 @@ public class UserService(IUserRepository userRepository, UserManager<Application
                 Id = e.Id,
                 FirstName = e.FirstName,
                 LastName = e.LastName,
-                JobTitle = e.JobTitle,
+                //JobTitle = e.JobTitle,
                 Email = e.Email,
             }).ToList()
         };

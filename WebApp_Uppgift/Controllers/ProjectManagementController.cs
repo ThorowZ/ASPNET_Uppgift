@@ -28,13 +28,13 @@ public class ProjectManagementController : Controller
         var result = await _projectService.GetAllProjectsAsync();
         var statusResult = await _statusService.GetStatusAsync();
 
-
         if (result == null || !result.Success)
         {
+            Console.WriteLine("Creating Project Failed");
             return View(new List<ProjectDisplayViewModel>());
         }
 
-
+        Console.WriteLine("Creating Project Success");
         var projectDisplayList = result.Result.Select(p => new ProjectDisplayViewModel
         {
 

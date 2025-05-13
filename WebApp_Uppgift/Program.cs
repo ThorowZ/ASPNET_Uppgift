@@ -15,13 +15,14 @@ builder.Services.AddControllersWithViews();
 
 builder.Services.AddScoped<SignUpViewModel>();
 builder.Services.AddDbContext<AppDbContext>(x => x.UseSqlServer(builder.Configuration.GetConnectionString("SqlConnection")));
-builder.Services.AddIdentity<ApplicationUser, IdentityRole>(x =>
+builder.Services.AddIdentity<ApplicationUser, IdentityRole>(opts =>
 {
-    x.User.RequireUniqueEmail = true;
-    x.Password.RequiredLength = 6;
+    opts.User.RequireUniqueEmail = true;
+    opts.Password.RequiredLength = 6;
 })
-    .AddEntityFrameworkStores<AppDbContext>()
-    .AddDefaultTokenProviders();
+.AddEntityFrameworkStores<AppDbContext>()
+.AddDefaultTokenProviders();
+
 builder.Services.ConfigureApplicationCookie(x =>
 {
     x.LoginPath = "/RegisterAuth/Login";
@@ -44,51 +45,24 @@ builder.Services.AddScoped<IStatusService, StatusService>();
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IAuthService, AuthService>();
 
+
 var app = builder.Build();
 
 
 
 app.UseHsts();
 app.UseHttpsRedirection();
+app.UseStaticFiles();
 app.UseRouting();
 app.UseAuthentication();
 app.UseAuthorization();
-app.MapControllers();
 
-app.MapStaticAssets();
-
-
-//app.UseRewriter(new RewriteOptions)
-
-// Tagit hjälp av ChatGPT
-
-app.Use(async (context, next) =>
-{
-    if (context.Request.Path == "/")
-    {
-        context.Response.Redirect("/RegisterAuth/SignUp");
-        return;
-    }
-    await next();
-});
 
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=RegisterAuth}/{action=SignUp}/{id?}")
-    .WithStaticAssets();
-
-//ChatGPT hjälp syntax och struktur
-using (var scope = app.Services.CreateScope())
-{
-    var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
-    string[] roles = { "Member", "Admin" };
-
-    foreach (var role in roles)
-    {
-        if (!await roleManager.RoleExistsAsync(role))
-            await roleManager.CreateAsync(new IdentityRole(role));
-    }
-}
-
+    pattern: "{controller=RegisterAuth}/{action=SignUp}/{id?}"); 
+ //.WithStaticAssets();
 
 app.Run();
+
+

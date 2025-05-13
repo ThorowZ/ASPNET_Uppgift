@@ -13,7 +13,10 @@
 <body>
     @RenderBody()
 
-    <script src="~/js/site.js" asp-append-version="true"></script>
+
+        <script src="js/site.js" asp-append-version="true"></script>
+    <script asp-src-include="~/js/validate.js" asp-append-version="true"></script>
+
 
     @RenderSection("Scripts", required: false)
 </body>

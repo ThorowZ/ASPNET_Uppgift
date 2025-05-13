@@ -19,7 +19,7 @@ public class RegisterAuthController : Controller
     private readonly RoleManager<IdentityRole> _roleManager;
 
     public RegisterAuthController(
-    IAuthService authService,
+    IAuthService  authService,
     UserManager<ApplicationUser> userManager,
     SignInManager<ApplicationUser> signInManager,
     RoleManager<IdentityRole> roleManager)
@@ -42,7 +42,7 @@ public class RegisterAuthController : Controller
     [HttpPost]
     public async Task<IActionResult> SignUp(SignUpFormModel model)
     {
-        Console.WriteLine("Post");
+        Console.WriteLine("SignUp Post");
         if (!ModelState.IsValid) 
         {
             Console.WriteLine("ModelState is not valid");
@@ -60,23 +60,21 @@ public class RegisterAuthController : Controller
         Console.WriteLine("Successful");
         if (result.Succeeded)
         {
+            if (!await _roleManager.RoleExistsAsync("Member"))
+                await _roleManager.CreateAsync(new IdentityRole("Member"));
 
             await _userManager.AddToRoleAsync(member, "Member");
+            await _signInManager.SignInAsync(member, isPersistent: false);
 
-            Console.WriteLine("✅ Signup succeeded, redirecting to Login");
-            return Redirect("/RegisterAuth/Login");
-
+            Console.WriteLine("Signup succeeded—redirecting to Projects");
+            return RedirectToAction("Login", "RegisterAuth");
         }
 
-
-        foreach (var error in result.Errors)
-        {
-            ModelState.AddModelError(string.Empty, error.Description);
-        }
+        foreach (var err in result.Errors)
+            ModelState.AddModelError("", err.Description);
 
         return View(model);
     }
-
 
 
     //public async Task<IActionResult> SignUp()
@@ -96,7 +94,7 @@ public class RegisterAuthController : Controller
 
     [HttpGet]
     //[Route("login")]
-    public IActionResult Login(string returnUrl = "~/")
+    public IActionResult Login(string? returnUrl = null)
     {
         ViewBag.ReturnUrl = returnUrl;
 
@@ -105,21 +103,25 @@ public class RegisterAuthController : Controller
 
     [HttpPost]
     //[Route("login")]
-    public IActionResult Login(LoginFormModel formData, string returnUrl ="~/")
+    public IActionResult Login(LoginFormModel formData, string? returnUrl = null)
     {
         ViewBag.ReturnUrl = returnUrl;
         ViewBag.ErrorMessage = null;
 
+        Console.WriteLine("Post");
         if (!ModelState.IsValid)
         {
+            Console.WriteLine("ModelState is not valid");
             return View(formData);
         }
+        Console.WriteLine("ModelState is valid");
         var loginFormData = new LoginFormData
         {
             Email = formData.Email,
             Password = formData.Password,
             IsPersistent = false
         };
+        Console.WriteLine("LoginFormData created");
         var result = _authService.SignInAsync(loginFormData);
         if (result.Result.Success)
         {
@@ -130,8 +132,9 @@ public class RegisterAuthController : Controller
         return View(formData);
     }
 
-    public IActionResult Logout()
+    public async Task<IActionResult> Logout()
     {
+        await _signInManager.SignOutAsync();
         return RedirectToAction("Index", "Home");
     }
 }

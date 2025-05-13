@@ -11,7 +11,7 @@
             <h1>@ViewData["Title"]</h1>
 
             <form id="sign-up-form" asp-controller="RegisterAuth" asp-action="SignUp" method="post" novalidate>
-
+                @* @Html.AntiForgeryToken() *@
                 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
                 <div class="input-group">
@@ -47,8 +47,8 @@
                 </div> *@
 
                 <div class="term-service input-group">
-                    <input type="checkbox" id="terms" name="terms" required />
-                    <label for="terms">I accept Terms and Conditions</label>
+                    <input asp-for="TermsAndConditions" type="checkbox" id="terms" name="terms" required />
+                    <label asp-for="TermsAndConditions" for="terms">I accept Terms and Conditions</label>
                 </div>
 
                 <div class="input-group">
@@ -64,8 +64,7 @@
     </div>
 </div>
 
-@section Scripts {
-    @await Html.PartialAsync("_ValidationScripts")
+@section Scripts {)
 
     <script>
         document.getElementById("sign-up-form")?.addEventListener("submit", function () {
