@@ -94,18 +94,16 @@ public class RegisterAuthController : Controller
 
     [HttpGet]
     //[Route("login")]
-    public IActionResult Login(string? returnUrl = null)
+    public IActionResult Login()
     {
-        ViewBag.ReturnUrl = returnUrl;
-
+   
         return View();
     }
 
     [HttpPost]
     //[Route("login")]
-    public IActionResult Login(LoginFormModel formData, string? returnUrl = null)
+    public IActionResult Login(LoginFormModel formData)
     {
-        ViewBag.ReturnUrl = returnUrl;
         ViewBag.ErrorMessage = null;
 
         Console.WriteLine("Post");
@@ -125,7 +123,7 @@ public class RegisterAuthController : Controller
         var result = _authService.SignInAsync(loginFormData);
         if (result.Result.Success)
         {
-            return LocalRedirect(returnUrl);
+            return RedirectToAction("projects", "ProjectManagement");
 
         }
         ViewBag.ErrorMessage = result.Result.ErrorMessage;
